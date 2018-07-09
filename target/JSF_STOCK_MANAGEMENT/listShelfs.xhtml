@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<div id="form">
+		<h2>Listar Prateleiras</h2>
+		<h:form id="listShelfs">
+
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="shelfsTable" var="Shelf"
+				value="#{shelfBean.shelfDB}" editable="true"
+				rowKey="#{Shelf.ID}" selection="#{shelfBean.shelf}"
+				selectionMode="single">
+				<f:facet name="header">
+           				 RightClick to View Options
+        			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{shelfBean.editShelf()}"
+					update=":listShelfs:msgs" />
+
+
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Shelf.ID}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Shelf.ID}" style="width:100%"
+								label="Nome" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+
+				<p:column headerText="Preço Diário">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Shelf.rentPrice}€" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Shelf.rentPrice}" style="width:100%"
+								label="Preço Diário" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Produto na Prateleira">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Shelf.productOnShelf.ID}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Shelf.productOnShelf.ID}" style="width:100%"
+								label="Produto na Prateleira" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Quantidade">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Shelf.capability}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Shelf.capability}" style="width:100%"
+								label="Quantidade" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+	
+				 <p:column headerText="Eliminar" style="width:50px">
+                <p:commandLink value="X" update="shelfsTable" process="shelfsTable">
+                    <p:collector value="#{Shelf}" removeFrom="#{shelfBean.shelfDB}" unique="true"/>
+                </p:commandLink>
+            </p:column>
+			</p:dataTable>
+
+			<p:contextMenu for="shelfsTable">
+
+				<p:menuitem value="Edit" update="sheDetail" icon="ui-icon-search"
+					action="editShelf" actionListener="#{shelfBean.setShelf(shelfBean.shelf)}"  />
+				<p:menuitem value="View" update="sheDetail" icon="ui-icon-search"
+					oncomplete="PF('sheDialog').show()" />
+				<p:menuitem value="Delete" update="shelfsTable"
+					icon="ui-icon-close"
+					actionListener="#{shelfBean.deleteShelf()}" />
+			</p:contextMenu>
+
+			<p:dialog header="Shelf Info" widgetVar="sheDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+
+				<p:outputPanel id="sheDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty shelfBean.shelfDB}"
+						columnClasses="label,value">
+
+
+						<h:outputText value="Id:" />
+						<h:outputText value="#{shelfBean.shelf.ID}" />
+
+						<h:outputText value="Preço Diário" />
+						<h:outputText value="#{shelfBean.shelf.rentPrice}" />
+
+
+						<h:outputText value="Produto na Prateleira:" />
+						<h:outputText value="#{shelfBean.shelf.productOnShelf}" />
+
+						<h:outputText value="Quantidade" />
+						<h:outputText value="#{shelfBean.shelf.capability}%" />
+
+
+						<p:commandButton value="Editar Prateleira"
+							action="editShelf?faces-redirect=true" actionListener="#{shelfBean.setShelf(shelfBean.shelf)}" />
+					</p:panelGrid>
+
+				</p:outputPanel>
+
+			</p:dialog>
+
+
+
+
+
+
+		</h:form>
+
+		<p:button outcome="createShelf" value="Criar nova Prateleira"
+			icon="ui-icon-star">
+		</p:button>
+
+
+
+
+
+	</div>
+
+
+	<div id="placeholder">
+		<p:button outcome="index" value="Voltar" icon="ui-icon-star">
+		</p:button>
+	</div>
+</h:body>
+</html>

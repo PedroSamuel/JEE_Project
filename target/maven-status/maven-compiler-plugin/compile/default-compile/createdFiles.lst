@@ -1,0 +1,10 @@
+control\ProductControl.class
+model\Shelf.class
+repositories\ProductRepository.class
+managedBeans\ShelfBean.class
+model\Entity.class
+model\Product.class
+control\ShelfControl.class
+managedBeans\ProductBean.class
+repositories\EntityRepository.class
+repositories\ShelfRepository.class

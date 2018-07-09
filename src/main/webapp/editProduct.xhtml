@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+
+<h:body>
+	<div>
+		<h2>Editar Produto</h2>
+		<h:form id="editar">
+			<p:growl id="growl" life="2000" update="criar" />
+			<p:panel id="panel" header="Editar" style="margin-bottom:10px;">
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputText value="Id:" />
+					<h:outputText value="#{productBean.product.ID}" />
+					<h:inputHidden value="#{productBean.product.ID}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel for="prodname" value="Nome: *" />
+					<p:inputText id="prodname" value="#{productBean.product.name}"
+						required="true" label="nome Produto">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel for="rawPrice" value="Preço Bruto: *" />
+					<p:inputNumber id="rawPrice"
+						value="#{productBean.product.rawPrice}" symbol=" €"
+						symbolPosition="s" decimalSeparator="," thousandSeparator="."
+						required="true">
+					</p:inputNumber>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="1" style="margin-bottom: 10px">
+					<h:outputText id="output"
+						value="Desconto: #{productBean.product.discount}%" />
+					<h:inputHidden id="discount"
+						value="#{productBean.product.discount}" />
+					<p:slider for="discount" minValue="0" maxValue="100" step="1"
+						display="output" style="width: 200px"
+						displayTemplate="Desconto: {value}%" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel for="prodIva" value="IVA: *" />
+					<h:selectOneMenu id="prodIva" value="#{productBean.product.iva}"
+						required="true" label="Iva">
+						<f:selectItem itemLabel="Selecione" itemValue=""
+							noSelectionOption="false" />
+						<f:selectItem itemLabel="6%" itemValue="6" />
+						<f:selectItem itemLabel="13%" itemValue="13" />
+						<f:selectItem itemLabel="23%" itemValue="23" />
+					</h:selectOneMenu>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<p:commandButton value="Editar Produto"
+						actionListener="#{productBean.editProduct()}" update="growl"
+						action="listProducts.xhtml" icon="ui-icon-check" />
+				<p:button outcome="listProducts" value="Voltar" icon="ui-icon-star">
+				</p:button>
+
+
+
+				</h:panelGrid>
+
+			</p:panel>
+		</h:form>
+	</div>
+
+</h:body>
+</html>

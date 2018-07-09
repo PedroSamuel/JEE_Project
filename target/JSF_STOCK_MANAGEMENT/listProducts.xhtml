@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<div id="form">
+		<h2>Consultar Produtos</h2>
+		<h:form id="consult">
+
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="productsTable" var="Product"
+				value="#{productBean.productDB}" editable="true"
+				rowKey="#{Product.ID}" selection="#{productBean.product}"
+				selectionMode="single">
+				<f:facet name="header">
+           				 RightClick to View Options
+        			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{productBean.editProduct()}"
+					update=":consult:msgs" />
+
+
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Product.ID}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Product.ID}" style="width:100%"
+								label="Nome" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Nome">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Product.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Product.name}" style="width:100%"
+								label="Nome" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+
+				<p:column headerText="Preço Bruto">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Product.rawPrice}€" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Product.rawPrice}" style="width:100%"
+								label="Preço Bruto" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Iva">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Product.iva}%" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Product.iva}" style="width:100%"
+								label="IVA" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Desconto">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{Product.discount}%" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{Product.discount}" style="width:100%"
+								label="Desconto" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="PVP">
+					<h:outputText value="#{Product.pvp}€" />
+				</p:column>
+			<!--	<p:column headerText="Editar" style="width:40px">
+					<p:rowEditor />
+			
+				</p:column>
+				-->
+				 <p:column headerText="Eliminar" style="width:50px">
+                <p:commandLink value="X" update="productsTable" process="productsTable">
+                    <p:collector value="#{Product}" removeFrom="#{productBean.productDB}" unique="true"/>
+                </p:commandLink>
+            </p:column>
+			</p:dataTable>
+
+			<p:contextMenu for="productsTable">
+
+				<p:menuitem value="Edit" icon="ui-icon-search"
+					action="editProduct" actionListener="#{productBean.setProduct(productBean.product)}"  />
+				<p:menuitem value="View" update="prodDetail" icon="ui-icon-search"
+					oncomplete="PF('prodDialog').show()" />
+				<p:menuitem value="Delete" update="productsTable"
+					icon="ui-icon-close"
+					actionListener="#{productBean.deleteProduct()}" />
+			</p:contextMenu>
+
+			<p:dialog header="Prod Info" widgetVar="prodDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+
+				<p:outputPanel id="prodDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty productBean.productDB}"
+						columnClasses="label,value">
+
+
+						<h:outputText value="Id:" />
+						<h:outputText value="#{productBean.product.ID}" />
+
+						<h:outputText value="Nome" />
+						<h:outputText value="#{productBean.product.name}" />
+
+
+						<h:outputText value="Preço Bruto:" />
+						<h:outputText value="#{productBean.product.rawPrice}€" />
+
+						<h:outputText value="Desconto" />
+						<h:outputText value="#{productBean.product.discount}%" />
+
+
+						<p:commandButton value="Editar Produto"
+							action="editProduct" actionListener="#{productBean.setProduct(productBean.product)}" />
+					</p:panelGrid>
+
+				</p:outputPanel>
+
+			</p:dialog>
+
+
+
+
+
+
+		</h:form>
+
+		<p:button outcome="createProduct" value="Criar novo Produto"
+			icon="ui-icon-star">
+		</p:button>
+
+
+
+
+
+	</div>
+
+
+	<div id="placeholder">
+		<p:button outcome="index" value="Voltar" icon="ui-icon-star">
+		</p:button>
+	</div>
+</h:body>
+</html>

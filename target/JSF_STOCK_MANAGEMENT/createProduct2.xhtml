@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+
+<h:body>
+	<div id="content" class="ui-g-12 ui-md-6 ui-lg-3">
+		<ui:composition>
+			<h2>Criar Produto</h2>
+			<h:form id="criar">
+			 <p:growl id="growl" life="2000" update="criar" />
+				<p:panel id="panel" header="Criar Produto"
+					style="margin-bottom:10px;">
+
+					<h:panelGrid columns="4" cellpadding="5">
+						<h:outputLabel for="prodname" value="Nome: *" />
+						<p:inputText id="prodname" value="#{productBean.product.name}"
+							required="true" label="nome Produto">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" cellpadding="5">
+						<h:outputLabel for="rawPrice" value="Preço Bruto: *" />
+						<p:inputNumber id="rawPrice"
+							value="#{productBean.product.rawPrice}" symbol=" €"
+							symbolPosition="s" decimalSeparator="," thousandSeparator="."
+							required="true">
+						</p:inputNumber>
+
+						<!--
+							<p:inputText id="rawPrice" disabled="true"
+								value="#{productBean.product.rawPrice}" />
+								-->
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" style="margin-bottom: 10px">
+						<h:outputText id="output"
+							value="Desconto: #{productBean.product.discount}%" />
+						<h:inputHidden id="discount"
+							value="#{productBean.product.discount}" />
+						<p:slider for="discount" minValue="0" maxValue="100" step="1"
+							display="output" style="width: 200px"
+							displayTemplate="Desconto: {value}%" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" cellpadding="5">
+						<h:outputLabel for="prodIva" value="IVA: *" />
+						<h:selectOneMenu id="prodIva" value="#{productBean.product.iva}"
+							required="true" label="Iva">
+							<f:selectItem itemLabel="Selecione" itemValue=""
+								noSelectionOption="false" />
+							<f:selectItem itemLabel="6%" itemValue="6" />
+							<f:selectItem itemLabel="13%" itemValue="13" />
+							<f:selectItem itemLabel="23%" itemValue="23" />
+						</h:selectOneMenu>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" cellpadding="5">
+						<p:commandButton value="Criar Produto"
+							actionListener="#{productBean.createProduct()}"
+							
+							update="consult growl @parent:criar"
+							action="index.xhtml"
+							icon="ui-icon-check" 
+							/>	
+								
+							
+
+					</h:panelGrid>
+
+				</p:panel>
+			</h:form>
+			
+			<h:form id="consult">
+				<p:dataTable id="productsTable" var="Product"
+					value="#{productBean.productDB}" rowKey="#{Product.ID}"
+					selection="#{productBean.product}" selectionMode="single">
+					<f:facet name="header">
+            RightClick to View Options
+        </f:facet>
+					<p:column headerText="Id">
+						<h:outputText value="#{Product.ID}" />
+					</p:column>
+					<p:column headerText="Nome">
+						<h:outputText value="#{Product.name}" />
+					</p:column>
+					<p:column headerText="Preço Bruto">
+						<h:outputText value="#{Product.rawPrice}€" />
+					</p:column>
+					<p:column headerText="Iva">
+						<h:outputText value="#{Product.iva}%" />
+					</p:column>
+					<p:column headerText="Desconto">
+						<h:outputText value="#{Product.discount}%" />
+					</p:column>
+					<p:column headerText="PVP">
+						<h:outputText value="#{Product.pvp}€" />
+					</p:column>
+
+				</p:dataTable>
+
+
+				<p:contextMenu for="productsTable">
+
+					<p:menuitem value="Create" update="prodDetail" icon="ui-icon-disk"
+						oncomplete="PF('createProduct.xhtml).show()" />
+					<p:menuitem value="View" update="prodDetail" icon="ui-icon-search"
+						oncomplete="PF('prodDialog').show()" />
+					<p:menuitem value="Delete" update="productsTable"
+						icon="ui-icon-close"
+						actionListener="#{productBean.deleteProduct()}" />
+				</p:contextMenu>
+
+				<p:dialog header="Prod Info" widgetVar="prodDialog" modal="false"
+					showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="prodDetail" style="text-align:center;">
+						<p:panelGrid columns="2"
+							rendered="#{not empty productBean.productDB}"
+							columnClasses="label,value">
+
+							<!--
+							<div id="ProductCreate">
+								<ui:insert name="createProduct">
+									<ui:include src="/createProduct.xhtml" />
+								</ui:insert>
+							</div>
+
+							-->
+							<h:outputText value="Id:" />
+							<h:outputText value="#{productBean.product.ID}" />
+
+							<h:outputText value="Nome" />
+							<h:outputText value="#{productBean.product.name}" />
+
+
+							<h:outputText value="Preço Bruto:" />
+							<h:outputText value="#{productBean.product.rawPrice}€" />
+
+							<h:outputText value="Desconto" />
+							<h:outputText value="#{productBean.product.discount}%" />
+							
+
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+			
+
+		</ui:composition>
+	</div>
+	
+	<div id="placeholder">
+		<p:button outcome="index" value="Voltar" icon="ui-icon-star">
+		</p:button>
+	</div>
+</h:body>
+</html>

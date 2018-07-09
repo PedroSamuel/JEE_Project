@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<body>
+	<ui:composition>
+
+		<h:form>
+			<p:menubar>
+				<p:submenu label="Products">
+					<p:menuitem value="Criar" outcome="createProduct"
+						icon="ui-icon-disk" />
+
+					<p:menuitem value="Editar" outcome="editProduct"
+						icon="ui-icon-arrowrefresh-1-w" />
+					<p:menuitem value="Consultar" outcome="listProducts"
+						icon="ui-icon-arrowrefresh-1-w" />
+					<p:menuitem value="Eliminar" outcome="eliminateProduct"
+						icon="ui-icon-arrowrefresh-1-w" />
+
+				</p:submenu>
+				<p:submenu label="Shelfs">
+					<p:menuitem value="Criar" outcome="createShelf" icon="ui-icon-disk" />
+					<p:menuitem value="Editar" outcome="editShelf"
+						icon="ui-icon-arrowrefresh-1-w" />
+					<p:menuitem value="Consultar" outcome="consultShelf"
+						icon="ui-icon-arrowrefresh-1-w" />
+					<p:menuitem value="Eliminar" outcome="eliminateShelf"
+						icon="ui-icon-arrowrefresh-1-w" />
+				</p:submenu>
+				<p:menuitem value="Quit" url="http://www.primefaces.org"
+					icon="ui-icon-close" />
+			</p:menubar>
+		</h:form>
+
+	</ui:composition>
+</body>
+</html>

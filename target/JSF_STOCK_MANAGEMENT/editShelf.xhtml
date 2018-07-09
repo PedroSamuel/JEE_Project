@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+
+<h:body>
+	<div>
+		<h2>Editar Prateleira</h2>
+		<h:form id="editar">
+			<p:growl id="growl" life="2000" update="criar" />
+			<p:panel id="panel" header="Editar" style="margin-bottom:10px;">
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputText value="Id:" />
+					<h:outputText value="#{shelfBean.shelf.ID}" />
+					<h:inputHidden value="#{shelfBean.shelf.ID}" />
+				</h:panelGrid>
+
+
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel for="rentPrice" value="Preço Diário: *" />
+					<p:inputNumber id="rentPrice" value="#{shelfBean.shelf.rentPrice}"
+						symbol=" €" symbolPosition="s" decimalSeparator=","
+						thousandSeparator="." required="true">
+					</p:inputNumber>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:selectOneMenu id="prodOnShelf"
+						value="#{shelfBean.prodOnShelf}" required="false"
+						label="Produto na Prateleira" converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="Select One" itemValue="#{shelfBean.prodOnShelf}"  />
+						<f:selectItems value="#{productBean.productDB}" var="Product"   
+							 />
+					</h:selectOneMenu>
+					<p:commandButton value="Atribuir Produto"
+						actionListener="#{shelfBean.addProductToShelf()}" update="growl"
+						action="listShelfs.xhtml" icon="ui-icon-check" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<p:commandButton value="Editar Prateleira"
+						actionListener="#{shelfBean.editShelf()}" update="growl"
+						action="listShelfs.xhtml" icon="ui-icon-check" />
+					<p:button outcome="listShelfs" value="Voltar" icon="ui-icon-star">
+					</p:button>
+
+
+
+				</h:panelGrid>
+
+			</p:panel>
+		</h:form>
+	</div>
+
+</h:body>
+</html>
