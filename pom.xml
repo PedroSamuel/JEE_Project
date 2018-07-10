@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.altar.upacademy</groupId>
-	<artifactId>JSF_STOCK_MANAGEMENT</artifactId>
+	<artifactId>JEE_STOCK_MANAGEMENT</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
@@ -39,7 +39,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>JSF_STOCK_MANAGEMENT</finalName>
+		<finalName>JEE_STOCK_MANAGEMENT</finalName>
 	</build>
 
 </project>
